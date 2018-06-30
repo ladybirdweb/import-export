@@ -15,7 +15,6 @@
         "illuminate/bus": "~5",
         "illuminate/contracts": "~5",
         "illuminate/database": "~5",
-        "illuminate/foundation": "~1",
         "illuminate/http": "~5",
         "illuminate/queue": "~5",
         "illuminate/support": "~5",
