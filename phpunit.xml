@@ -19,4 +19,13 @@
             <directory>src/</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="APP_KEY" value="base64:OYl4Bk9ekouOUIRXyeTD0FVi+cJ9D+HMyDJBgSBSUuI="/>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_URL" value="http://laravel.dev"/>
+        <env name="API_HOST" value="laravel.dev"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
+        <env name="DB_DATABASE" value="testing"/>
+        <env name="APP_ENV" value="testing"/>
+    </php>
 </phpunit>
