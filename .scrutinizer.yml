@@ -2,7 +2,6 @@ build:
   environment:
     php: '7.1'
     mysql: '5.7'
-    node: '8.1'
     hosts:
         laravel.dev: '127.0.0.1'
     variables:
@@ -16,4 +15,4 @@ build:
         DB_PASSWORD: ''
   dependencies:
     before:
-      - mysql -u root -e 'CREATE DATABASE scrutinizer'
+      - mysql -u root -e 'CREATE DATABASE testing'
