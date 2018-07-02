@@ -24,11 +24,16 @@ class ImportTest extends TestCase
 	    return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
 	}
 
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('database.default', 'testing');
+    }
+
 	protected function setUp ()
 	{
 	    parent::setUp();
 
-	    $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+	    $this->artisan('migrate', ['--database' => 'testing']);
 
 	    Route::middleware('web')->group(function() {
 		    

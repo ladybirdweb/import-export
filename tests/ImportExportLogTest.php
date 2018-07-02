@@ -15,9 +15,21 @@ class ImportExportLogTest extends TestCase
 
 	protected $import;
 
+	protected function getPackageProviders($app)
+	{
+	    return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
+	}
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('database.default', 'testing');
+    }
+
 	protected function setUp ()
 	{
 	    parent::setUp();
+
+	    $this->artisan('migrate', ['--database' => 'testing']);
 
 		$this->import = Import::create([
 			'file' => 'imports/import-1530262997.csv',
