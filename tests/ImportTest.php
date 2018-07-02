@@ -41,7 +41,7 @@ class ImportTest extends TestCase
 
 		});
 
-		Storage::putFileAs('imports', new File( storage_path( 'test/test.csv' ) ), 'test.csv');
+		Storage::putFileAs('imports', new File( __DIR__ . '/storage/test/test.csv' ), 'test.csv');
 
 		$this->import = ModelImport::create([
 			'file' => 'imports/test.csv',

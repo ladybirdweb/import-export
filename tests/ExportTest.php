@@ -44,7 +44,7 @@ class ExportTest extends TestCase
 
 		});
 
-		Storage::putFileAs('exports', new File( storage_path( 'test/test.csv' ) ), 'test.xls');
+		Storage::putFileAs('exports', new File( __DIR__ . '/storage/test/test.csv' ), 'test.xls');
 
 		$this->export = ModelExport::create([
 			'file' => 'test.xls',
