@@ -25,16 +25,6 @@ class Export
 	}
 
 
-
-	public function showExportStatus($id)
-    {
-        // Map export instance
-        $export = ModelExport::findOrFail( $id );
-
-        return view( 'importexport::export.progress', compact( 'id' ) );
-    }
-
-
     /**
      * Return export progress
      *

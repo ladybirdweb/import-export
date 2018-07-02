@@ -70,18 +70,6 @@ class ExportTest extends TestCase
 	/**
 	* @test
 	*/
-	public function see_export_progress_page()
-	{
-		$response =  $this->get('/ticket/export/' . $this->export->id);
-
-		$response->assertStatus(200);
-
-		$response->assertSee('Export');
-	}
-
-	/**
-	* @test
-	*/
 	public function check_export_progress_ajax()
 	{
 		$response = $this->json( 'GET', '/export/' . $this->export->id . '/progress');
@@ -100,7 +88,7 @@ class ExportTest extends TestCase
 	{
 		$response = $this->get('/export/' . $this->export->id . '/download');
 
-		$response->assertHeader( 'content-disposition', 'attachment; filename="test.xls"');
+		$response->assertHeader( 'content-disposition', 'attachment; filename=test.xls');
 
 		$response->assertStatus(200);
 	}
