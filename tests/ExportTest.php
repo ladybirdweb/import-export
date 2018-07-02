@@ -48,7 +48,7 @@ class ExportTest extends TestCase
 
 		$this->export = ModelExport::create([
 			'file' => 'test.xls',
-			'query' => \App\Models\User::select([ 'name', 'email', 'created_at' ])->getModel(),
+			'query' => User::select([ 'name', 'email', 'created_at' ])->getModel(),
 			'type' => 'xls'
 		]);
 	}
@@ -60,7 +60,7 @@ class ExportTest extends TestCase
 	{
 		Queue::fake();
 
-		$export = Export::export( \App\Models\User::select([ 'name', 'email', 'created_at' ]), 'xls' );
+		$export = Export::export( User::select([ 'name', 'email', 'created_at' ]), 'xls' );
 
 		$this->assertInstanceOf( ModelExport::class, $export );
 
