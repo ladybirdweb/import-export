@@ -1,2 +1,0 @@
-# import-export
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ce4e97a0d0a84c678546aa574147530d)](https://app.codacy.com/app/abhishekKrHaith11/import-export?utm_source=github.com&utm_medium=referral&utm_content=ladybirdweb/import-export&utm_campaign=badger)
