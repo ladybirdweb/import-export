@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Tests\TestCase;
+use Orchestra\Testbench\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Ladybirdweb\ImportExport\Facades\ImportExportLog;

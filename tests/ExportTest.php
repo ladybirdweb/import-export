@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Tests\TestCase;
+use Orchestra\Testbench\TestCase;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -98,7 +98,7 @@ class ExportTest extends TestCase
 	*/
 	public function fail_download_exported_file()
 	{
-		$response = $this->get('/export/' . rand(1, 100) . '/download');
+		$response = $this->get('/export/987654321/download');
 
 		$response->assertStatus(404);
 	}

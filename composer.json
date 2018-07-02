@@ -19,7 +19,6 @@
         "illuminate/queue": "~5",
         "illuminate/support": "~5",
         "illuminate/validation": "~5",
-        "jildertmiedema/laravel-plupload": "^0.4.1",
         "maatwebsite/excel": "~2.1.0",
         "nesbot/carbon": "^1.24.1"
     },

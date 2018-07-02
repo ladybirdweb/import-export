@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Tests\TestCase;
+use Orchestra\Testbench\TestCase;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,13 +24,7 @@ class ImportTest extends TestCase
 	    parent::setUp();
 
 	    Route::middleware('web')->group(function() {
-
-		    Route::get('ticket/import', ['as' => 'ticket.import', 'uses' => 'Ladybirdweb\ImportExport\Import@showImportForm'] );
-		    Route::post('ticket/import', ['as' => 'ticket.import', 'uses' => 'Ladybirdweb\ImportExport\Import@uploadImportFile'] );
-
-			Route::get('/ticket/import/{id}/map', [ 'as' => 'ticket.import.show.map', 'uses' => 'Ladybirdweb\ImportExport\Import@showColumnsMapForm']);
-			Route::post('/ticket/import/{id}', [ 'as' => 'ticket.import.map', 'uses' => 'Ladybirdweb\ImportExport\Import@storeColumnsMap']);
-
+		    
 			Route::get( '/import/{id}/progress', [ 'as' => 'ladybirdweb.import.ajax.progress', 'uses' => 'Ladybirdweb\ImportExport\Import@returnImportProgress']);
 
 		});
@@ -48,63 +42,31 @@ class ImportTest extends TestCase
 	/**
 	* @test
 	*/
-	public function see_import_form()
+	public function create_new_import_success()
 	{
-		Import::setUploadRoute('ticket.import');
+		$import = Import::createImport('imports/test.csv', [ 'name', 'email', 'password']);
 
-		$response = $this->get('ticket/import');
-
-		$response->assertSee( 'importer' );
+		$this->assertInstanceOf(ModelImport::class, $import);
 	}
 
 	/**
 	* @test
 	*/
-	public function try_file_upload()
+	public function fetch_import()
 	{
-		Storage::fake('file');
+		$import = Import::getImport($this->import->id);
 
-        $response = $this->json( 'POST', '/ticket/import', [
-            'file' => UploadedFile::fake()->create('file.csv', 100)
-        ]);
-
-        $response->assertStatus(200);
-
-        $response->assertJsonFragment( ['status' => 'ready'] );
+		$this->assertInstanceOf(ModelImport::class, $import);
 	}
 
 	/**
 	* @test
 	*/
-	public function fail_file_upload()
+	public function get_few_rows_from_uploaded_file()
 	{
-		Storage::fake('file');
+		$csv_data = Import::getImportFileData($this->import->id);
 
-        $response = $this->json( 'POST', '/ticket/import', [
-            'file' => UploadedFile::fake()->image('file.jpg')
-        ]);
-
-        $response->assertStatus(200);
-
-        $response->assertJsonFragment( ['status' => 'failed'] );
-
-        $this->assertArrayHasKey( 'errors', Import::getImportErrors() );
-	}
-
-	/**
-	* @test
-	*/
-	public function map_data_with_csv_cols()
-	{
-		Import::setImportMapRoute('ticket.import.map');
-
-		$id = $this->import->id;
-
-		$response = $this->get('/ticket/import/' . $id . '/map');
-
-		$response->assertStatus(200);
-
-		$response->assertSee( 'Confirm Import' );
+		$this->assertInternalType( 'array', $csv_data );
 	}
 
 	/**
@@ -112,31 +74,9 @@ class ImportTest extends TestCase
 	*/
 	public function store_data_map_with_csv_cols()
 	{
-		$id = $this->import->id;
+		$import = Import::setDataMap(['email', 'name', 'password'], $this->import->id);
 
-		$response = $this->post( '/ticket/import/' . $id, [
-			'db_column' => ['email', 'name', 'password']
-		] );
-
-		$response->assertStatus(200);
-
-		$response->assertSessionMissing( 'errors' );
-	}
-
-	/**
-	* @test
-	*/
-	public function store_data_map_with_csv_cols_failed_validation()
-	{
-		$id = $this->import->id;
-
-		$response = $this->post( '/ticket/import/' . $id, [
-			'db_column' => ['name', 'name', 'name']
-		] );
-
-		$response->assertStatus(302);
-
-		$response->assertSessionHas( 'errors' );
+		$this->assertInstanceOf(ModelImport::class, $import);
 	}
 
 	/**
@@ -165,5 +105,13 @@ class ImportTest extends TestCase
 		$response->assertJsonFragment( ['status' => 200] );
 
 		$response->assertJsonFragment( ['progress'] );
+	}
+
+	/**
+	* @test
+	*/
+	public function remove_import()
+	{
+		$this->assertTrue(Import::removeImport($this->import->id));
 	}
 }
