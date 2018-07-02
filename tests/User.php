@@ -27,16 +27,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
     /**
-    * Password mulator
-    *
-    * Encrypt password while storing.
-    * @param $value
-    * @return void
-    */
+     * Password mulator.
+     *
+     * Encrypt password while storing.
+     * @param $value
+     * @return void
+     */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt( $value );
+        $this->attributes['password'] = bcrypt($value);
     }
 }

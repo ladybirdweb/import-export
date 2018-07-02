@@ -2,104 +2,100 @@
 
 namespace Tests;
 
-use Orchestra\Testbench\TestCase;
 use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Ladybirdweb\ImportExport\Facades\Export;
 use Ladybirdweb\ImportExport\Jobs\ExportJob;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Ladybirdweb\ImportExport\Models\Export as ModelExport;
 
 class ExportTest extends TestCase
 {
-	use RefreshDatabase;
+    use RefreshDatabase;
 
-	protected $export;
+    protected $export;
 
-	protected function getPackageProviders($app)
-	{
-	    return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
-	}
+    protected function getPackageProviders($app)
+    {
+        return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
+    }
 
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'testing');
     }
 
-	protected function setUp ()
-	{
-	    parent::setUp();
+    protected function setUp()
+    {
+        parent::setUp();
 
-	    $this->artisan('migrate', ['--database' => 'testing']);
+        $this->artisan('migrate', ['--database' => 'testing']);
 
-	    Route::middleware('web')->group(function() {
+        Route::middleware('web')->group(function () {
+            Route::get('/ticket/export/{id}', ['as' => 'ticket.export.progress', 'uses' => 'Ladybirdweb\ImportExport\Export@showExportStatus']);
 
-			Route::get('/ticket/export/{id}', [ 'as' => 'ticket.export.progress', 'uses' => 'Ladybirdweb\ImportExport\Export@showExportStatus']);
+            Route::get('/export/{id}/download', ['as' => 'ladybirdweb.export.download', 'uses' => 'Ladybirdweb\ImportExport\Export@downloadExportedFile']);
+        });
 
-			Route::get( '/export/{id}/download',  [ 'as' => 'ladybirdweb.export.download', 'uses' => 'Ladybirdweb\ImportExport\Export@downloadExportedFile']);
+        Storage::putFileAs('exports', new File(__DIR__.'/storage/test/test.csv'), 'test.xls');
 
-		});
+        $this->export = ModelExport::create([
+            'file' => 'test.xls',
+            'query' => User::select(['name', 'email', 'created_at'])->getModel(),
+            'type' => 'xls',
+        ]);
+    }
 
-		Storage::putFileAs('exports', new File( __DIR__ . '/storage/test/test.csv' ), 'test.xls');
+    /**
+     * @test
+     */
+    public function data_export_initiated_and_dispatched()
+    {
+        Queue::fake();
 
-		$this->export = ModelExport::create([
-			'file' => 'test.xls',
-			'query' => User::select([ 'name', 'email', 'created_at' ])->getModel(),
-			'type' => 'xls'
-		]);
-	}
+        $export = Export::export(User::select(['name', 'email', 'created_at']), 'xls');
 
-	/**
-	* @test
-	*/
-	public function data_export_initiated_and_dispatched()
-	{
-		Queue::fake();
+        $this->assertInstanceOf(ModelExport::class, $export);
 
-		$export = Export::export( User::select([ 'name', 'email', 'created_at' ]), 'xls' );
+        Queue::assertPushedOn('exporting', ExportJob::class);
+    }
 
-		$this->assertInstanceOf( ModelExport::class, $export );
+    /**
+     * @test
+     */
+    public function check_export_progress_ajax()
+    {
+        $response = $this->json('GET', '/export/'.$this->export->id.'/progress');
 
-		Queue::assertPushedOn('exporting', ExportJob::class);
-	}
+        $response->assertStatus(200);
 
-	/**
-	* @test
-	*/
-	public function check_export_progress_ajax()
-	{
-		$response = $this->json( 'GET', '/export/' . $this->export->id . '/progress');
+        $response->assertJsonFragment(['status' => 200]);
 
-		$response->assertStatus(200);
+        $response->assertJsonFragment(['progress']);
+    }
 
-		$response->assertJsonFragment( ['status' => 200] );
+    /**
+     * @test
+     */
+    public function try_download_exported_file()
+    {
+        $response = $this->get('/export/'.$this->export->id.'/download');
 
-		$response->assertJsonFragment( ['progress'] );
-	}
+        $response->assertHeader('content-disposition', 'attachment; filename=test.xls');
 
-	/**
-	* @test
-	*/
-	public function try_download_exported_file()
-	{
-		$response = $this->get('/export/' . $this->export->id . '/download');
+        $response->assertStatus(200);
+    }
 
-		$response->assertHeader( 'content-disposition', 'attachment; filename=test.xls');
+    /**
+     * @test
+     */
+    public function fail_download_exported_file()
+    {
+        $response = $this->get('/export/987654321/download');
 
-		$response->assertStatus(200);
-	}
-
-	/**
-	* @test
-	*/
-	public function fail_download_exported_file()
-	{
-		$response = $this->get('/export/987654321/download');
-
-		$response->assertStatus(404);
-	}
+        $response->assertStatus(404);
+    }
 }
