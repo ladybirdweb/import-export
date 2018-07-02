@@ -2,14 +2,14 @@
 
 namespace Ladybirdweb\ImportExport\Jobs;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Carbon\Carbon;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Ladybirdweb\ImportExport\Models\Export;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ExportJob implements ShouldQueue
 {
@@ -37,7 +37,7 @@ class ExportJob implements ShouldQueue
     public function handle()
     {
         // Custom file path
-        $file_path = date( 'Y/m' );
+        $file_path = date('Y/m');
 
         // Export instance assign to variable
         $export = $this->export;
@@ -47,36 +47,31 @@ class ExportJob implements ShouldQueue
         $export->save();
 
         // Create export file
-        $excel = Excel::create( 'export-' . date( 'dmYhis' ), function($excel) use ($export) {
+        $excel = Excel::create('export-'.date('dmYhis'), function ($excel) use ($export) {
 
             // Create new sheet
-            $excel->sheet( 'export', function($sheet) use ($export) {
+            $excel->sheet('export', function ($sheet) use ($export) {
 
                 // Retrive data in chunk
-                $export->query->chunk( 10, function($data) use ($export, $sheet) {
+                $export->query->chunk(10, function ($data) use ($export, $sheet) {
 
                     // Process chunk data
-                    foreach ( $data as $row ) {
-                        
-                        // Append row to sheet
-                        $sheet->appendRow( $row->toArray() );
+                    foreach ($data as $row) {
 
+                        // Append row to sheet
+                        $sheet->appendRow($row->toArray());
                     }
 
                     // Store processed row count
                     $export->row_processed += 10;
                     $export->save();
-
-                } );
-
+                });
             });
-
-        })->store( $this->export->type, storage_path( 'app/exports/' . $file_path ), true );
+        })->store($this->export->type, storage_path('app/exports/'.$file_path), true);
 
         // Update export data
-        $export->file = $file_path . '/' . $excel['file'];
+        $export->file = $file_path.'/'.$excel['file'];
         $export->completed_at = Carbon::now();
         $export->save();
-
     }
 }

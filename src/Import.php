@@ -18,8 +18,8 @@ class Import
         // Store file path and model class to db
         $import = ModelImport::create([
             'file' => $path,
-            'file_rows' => count( file( storage_path( 'app/' . $path ) ) ) - 1,
-            'db_cols' => $columns
+            'file_rows' => count(file(storage_path('app/'.$path))) - 1,
+            'db_cols' => $columns,
         ]);
 
         return $import;
@@ -33,28 +33,30 @@ class Import
      */
     public function getImport($id)
     {
-        return ModelImport::findOrFail( $id );
+        return ModelImport::findOrFail($id);
     }
 
     public function getImportFileData($id, $rows = 5)
     {
         // Get import instance
-        $import = $this->getImport( $id );
-        
+        $import = $this->getImport($id);
+
         // Read 5 rows from csv
         $read_line = 1;
 
-        $file = fopen( storage_path( 'app/' . $import->file ), 'r' );
+        $file = fopen(storage_path('app/'.$import->file), 'r');
 
-        while ( $csv_line = fgetcsv( $file ) ) {
+        while ($csv_line = fgetcsv($file)) {
             $csv_data[] = $csv_line;
 
-            if ( $read_line > $rows ) break;
+            if ($read_line > $rows) {
+                break;
+            }
 
             $read_line++;
         }
-        
-        fclose( $file );
+
+        fclose($file);
 
         return $csv_data;
     }
@@ -80,7 +82,7 @@ class Import
     }
 
     /**
-     * Dispatch import job
+     * Dispatch import job.
      *
      * @param  $job Job class to dispatch
      * @param  $import Instance of import
@@ -93,7 +95,7 @@ class Import
     }
 
     /**
-     * Return import progress
+     * Return import progress.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response json
@@ -107,13 +109,12 @@ class Import
         $data['progress'] = round(($import->row_processed / $import->file_rows) * 100);
 
         // If progress completed return successful imported rows count
-        if ( $data['progress'] == 100 ) {
+        if ($data['progress'] == 100) {
             $data['imported'] = $import->row_imported;
         }
 
-        return response()->json( $data );
+        return response()->json($data);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -124,7 +125,7 @@ class Import
     public function removeImport($id)
     {
         // Get import instance
-        $import = $this->getImport( $id );
+        $import = $this->getImport($id);
 
         // Remove a import from db
         return $import->delete();

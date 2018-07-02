@@ -14,27 +14,26 @@ class ImportExportServiceProvider extends ServiceProvider
     public function boot()
     {
         // Register routes
-        $this->loadRoutesFrom( __DIR__ . '/routes.php' );
+        $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         // Register database migrations
-        $this->loadMigrationsFrom( __DIR__ . '/../database/migrations' );
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         // Load views
-        $this->loadViewsFrom( __DIR__ . '/../resources/views', 'importexport' );
-
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'importexport');
 
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ladybirdweb');
 
         // Publishing is only necessary when using the CLI.
-        if ( $this->app->runningInConsole() ) {
+        if ($this->app->runningInConsole()) {
 
             // Publishing the configuration file.
             $this->publishes([
-                __DIR__ . '/../config/import.php' => config_path('ladybirdweb/import-export/import.php'),
+                __DIR__.'/../config/import.php' => config_path('ladybirdweb/import-export/import.php'),
             ], 'import-export.config');
-            
+
             $this->publishes([
-                __DIR__ . '/../config/export.php' => config_path('ladybirdweb/import-export/export.php'),
+                __DIR__.'/../config/export.php' => config_path('ladybirdweb/import-export/export.php'),
             ], 'import-export.config');
 
             // Publishing the views.
@@ -46,7 +45,6 @@ class ImportExportServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../public/assets' => public_path('vendor/ladybirdweb/import-export'),
             ], 'import-export.assets');
-            
         }
     }
 
@@ -58,22 +56,21 @@ class ImportExportServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge config
-        $this->mergeConfigFrom( __DIR__ . '/../config/import.php', 'import' );
-        $this->mergeConfigFrom( __DIR__ . '/../config/export.php', 'export' );
+        $this->mergeConfigFrom(__DIR__.'/../config/import.php', 'import');
+        $this->mergeConfigFrom(__DIR__.'/../config/export.php', 'export');
 
         // Register fecades
-        $this->app->singleton( 'import', 'Ladybirdweb\ImportExport\Import' );
-        $this->app->singleton( 'importhandler', 'Ladybirdweb\ImportExport\ImportHandler' );
-        $this->app->singleton( 'importexportlog', 'Ladybirdweb\ImportExport\ImportExportLog' );
+        $this->app->singleton('import', 'Ladybirdweb\ImportExport\Import');
+        $this->app->singleton('importhandler', 'Ladybirdweb\ImportExport\ImportHandler');
+        $this->app->singleton('importexportlog', 'Ladybirdweb\ImportExport\ImportExportLog');
 
-        $this->app->singleton( 'export', 'Ladybirdweb\ImportExport\Export' );
+        $this->app->singleton('export', 'Ladybirdweb\ImportExport\Export');
 
         // Register import controller
-        $this->app->singleton( 'Ladybirdweb\ImportExport\Import' );
+        $this->app->singleton('Ladybirdweb\ImportExport\Import');
 
         // Register import handler
-        $this->app->singleton( 'Ladybirdweb\ImportExport\ImportHandler' );
-        
+        $this->app->singleton('Ladybirdweb\ImportExport\ImportHandler');
     }
 
     /**
