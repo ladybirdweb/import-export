@@ -19,9 +19,16 @@ class ImportTest extends TestCase
 
 	protected $import;
 
+	protected function getPackageProviders($app)
+	{
+	    return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
+	}
+
 	protected function setUp ()
 	{
 	    parent::setUp();
+
+	    $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
 	    Route::middleware('web')->group(function() {
 		    
