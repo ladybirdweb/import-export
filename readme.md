@@ -57,4 +57,4 @@ $ php artisan vendor:publish
 
 ## License
 
-MIT. Please see the [license file](license.md) for more information.
+MIT
