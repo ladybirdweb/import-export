@@ -27,7 +27,7 @@ class ImportTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 
@@ -112,7 +112,7 @@ class ImportTest extends TestCase
 
         $response->assertJsonFragment(['status' => 200]);
 
-        $response->assertJsonFragment(['progress']);
+        $response->assertJsonFragment(['progress'=>0]);
     }
 
     /**
