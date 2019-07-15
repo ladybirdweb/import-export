@@ -28,7 +28,7 @@ class ExportTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 
@@ -71,10 +71,9 @@ class ExportTest extends TestCase
         $response = $this->json('GET', '/export/'.$this->export->id.'/progress');
 
         $response->assertStatus(200);
-
         $response->assertJsonFragment(['status' => 200]);
 
-        $response->assertJsonFragment(['progress']);
+        $response->assertJsonFragment(['progress'=>0]);
     }
 
     /**

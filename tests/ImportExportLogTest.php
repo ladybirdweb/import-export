@@ -24,7 +24,7 @@ class ImportExportLogTest extends TestCase
         $app['config']->set('database.default', 'testing');
     }
 
-    protected function setUp()
+    protected function setUp():void
     {
         parent::setUp();
 
