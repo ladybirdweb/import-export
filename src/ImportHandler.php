@@ -1,9 +1,9 @@
 <?php
 
-namespace Ladybirdweb\ImportExport;
+namespace LWS\ImportExport;
 
 use Carbon\Carbon;
-use Ladybirdweb\ImportExport\Models\Import;
+use LWS\ImportExport\Models\Import;
 
 class ImportHandler
 {

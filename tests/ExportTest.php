@@ -7,10 +7,10 @@ use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Ladybirdweb\ImportExport\Facades\Export;
-use Ladybirdweb\ImportExport\Jobs\ExportJob;
+use LWS\ImportExport\Facades\Export;
+use LWS\ImportExport\Jobs\ExportJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Ladybirdweb\ImportExport\Models\Export as ModelExport;
+use LWS\ImportExport\Models\Export as ModelExport;
 
 class ExportTest extends TestCase
 {
@@ -20,7 +20,7 @@ class ExportTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
+        return ['LWS\ImportExport\ImportExportServiceProvider'];
     }
 
     protected function getEnvironmentSetUp($app)
@@ -35,9 +35,9 @@ class ExportTest extends TestCase
         $this->artisan('migrate', ['--database' => 'testing']);
 
         Route::middleware('web')->group(function () {
-            Route::get('/ticket/export/{id}', ['as' => 'ticket.export.progress', 'uses' => 'Ladybirdweb\ImportExport\Export@showExportStatus']);
+            Route::get('/ticket/export/{id}', ['as' => 'ticket.export.progress', 'uses' => 'LWS\ImportExport\Export@showExportStatus']);
 
-            Route::get('/export/{id}/download', ['as' => 'ladybirdweb.export.download', 'uses' => 'Ladybirdweb\ImportExport\Export@downloadExportedFile']);
+            Route::get('/export/{id}/download', ['as' => 'ladybirdweb.export.download', 'uses' => 'LWS\ImportExport\Export@downloadExportedFile']);
         });
 
         Storage::putFileAs('exports', new File(__DIR__.'/storage/test/test.csv'), 'test.xls');

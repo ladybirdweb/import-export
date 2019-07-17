@@ -1,6 +1,6 @@
 <?php
 
-namespace Ladybirdweb\ImportExport;
+namespace LWS\ImportExport;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +22,7 @@ class ImportExportServiceProvider extends ServiceProvider
         // Load views
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'importexport');
 
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ladybirdweb');
+        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'LWS');
 
         // Publishing is only necessary when using the CLI.
         if ($this->app->runningInConsole()) {

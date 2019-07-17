@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Ladybirdweb\\ImportExport\\": "src/"
+            "LWS\\ImportExport\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ladybirdweb\\ImportExport\\Tests\\": "tests"
+            "LWS\\ImportExport\\Tests\\": "tests"
         }
     },
     "minimum-stability": "dev",
@@ -41,13 +41,13 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Ladybirdweb\\ImportExport\\ImportExportServiceProvider"
+                "LWS\\ImportExport\\ImportExportServiceProvider"
             ],
             "aliases": {
-                "Import": "Ladybirdweb\\ImportExport\\Facades\\Import",
-                "ImportHandler": "Ladybirdweb\\ImportExport\\Facades\\ImportHandler",
-                "ImportExportLog": "Ladybirdweb\\ImportExport\\Facades\\ImportExportLog",
-                "Export": "Ladybirdweb\\ImportExport\\Facades\\Export"
+                "Import": "LWS\\ImportExport\\Facades\\Import",
+                "ImportHandler": "LWS\\ImportExport\\Facades\\ImportHandler",
+                "ImportExportLog": "LWS\\ImportExport\\Facades\\ImportExportLog",
+                "Export": "LWS\\ImportExport\\Facades\\Export"
             }
         }
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace Ladybirdweb\ImportExport;
+namespace LWS\ImportExport;
 
 use Illuminate\Database\Eloquent\Builder;
-use Ladybirdweb\ImportExport\Jobs\ExportJob;
-use Ladybirdweb\ImportExport\Models\Export as ModelExport;
+use LWS\ImportExport\Jobs\ExportJob;
+use LWS\ImportExport\Models\Export as ModelExport;
 
 class Export
 {

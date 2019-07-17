@@ -1,6 +1,6 @@
 <?php
 
-namespace Ladybirdweb\ImportExport\Models;
+namespace LWS\ImportExport\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

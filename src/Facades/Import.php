@@ -1,6 +1,6 @@
 <?php
 
-namespace Ladybirdweb\ImportExport\Facades;
+namespace LWS\ImportExport\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

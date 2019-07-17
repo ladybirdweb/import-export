@@ -7,9 +7,9 @@ use Orchestra\Testbench\TestCase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
-use Ladybirdweb\ImportExport\Facades\Import;
+use LWS\ImportExport\Facades\Import;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Ladybirdweb\ImportExport\Models\Import as ModelImport;
+use LWS\ImportExport\Models\Import as ModelImport;
 
 class ImportTest extends TestCase
 {
@@ -19,7 +19,7 @@ class ImportTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
+        return ['LWS\ImportExport\ImportExportServiceProvider'];
     }
 
     protected function getEnvironmentSetUp($app)
@@ -34,7 +34,7 @@ class ImportTest extends TestCase
         $this->artisan('migrate', ['--database' => 'testing']);
 
         Route::middleware('web')->group(function () {
-            Route::get('/import/{id}/progress', ['as' => 'ladybirdweb.import.ajax.progress', 'uses' => 'Ladybirdweb\ImportExport\Import@returnImportProgress']);
+            Route::get('/import/{id}/progress', ['as' => 'ladybirdweb.import.ajax.progress', 'uses' => 'LWS\ImportExport\Import@returnImportProgress']);
         });
 
         Storage::putFileAs('imports', new File(__DIR__.'/storage/test/test.csv'), 'test.csv');

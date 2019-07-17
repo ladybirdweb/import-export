@@ -3,10 +3,10 @@
 namespace Tests;
 
 use Orchestra\Testbench\TestCase;
-use Ladybirdweb\ImportExport\Models\Import;
+use LWS\ImportExport\Models\Import;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Ladybirdweb\ImportExport\Facades\ImportExportLog;
-use Ladybirdweb\ImportExport\Models\ImportExportLog as ModelImportExportLog;
+use LWS\ImportExport\Facades\ImportExportLog;
+use LWS\ImportExport\Models\ImportExportLog as ModelImportExportLog;
 
 class ImportExportLogTest extends TestCase
 {
@@ -16,7 +16,7 @@ class ImportExportLogTest extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return ['Ladybirdweb\ImportExport\ImportExportServiceProvider'];
+        return ['LWS\ImportExport\ImportExportServiceProvider'];
     }
 
     protected function getEnvironmentSetUp($app)

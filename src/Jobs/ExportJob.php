@@ -1,6 +1,6 @@
 <?php
 
-namespace Ladybirdweb\ImportExport\Jobs;
+namespace LWS\ImportExport\Jobs;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Ladybirdweb\ImportExport\Models\Export;
+use LWS\ImportExport\Models\Export;
 
 class ExportJob implements ShouldQueue
 {

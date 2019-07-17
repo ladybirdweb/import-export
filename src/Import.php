@@ -1,8 +1,8 @@
 <?php
 
-namespace Ladybirdweb\ImportExport;
+namespace LWS\ImportExport;
 
-use Ladybirdweb\ImportExport\Models\Import as ModelImport;
+use LWS\ImportExport\Models\Import as ModelImport;
 
 class Import
 {
