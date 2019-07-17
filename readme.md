@@ -13,7 +13,7 @@ This package will help to import and export huge data using cron jobs.
 Via Composer
 
 ``` bash
-$ composer require ladybirdweb/import-export
+$ composer require lws/import-export
 ```
 
 ## Usage
