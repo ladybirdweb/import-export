@@ -25,7 +25,7 @@ After installation you need to add the following line to config/app.php -
 /*
      * Package Service Providers...
      */
-    Ladybirdweb\ImportExport\ImportExportServiceProvider::class,
+    LWS\ImportExport\ImportExportServiceProvider::class,
 ]
 ```
 
@@ -36,10 +36,10 @@ If you want to use alias add the following -
 /*
      * Package Facades...
      */
-    'Import' => Ladybirdweb\ImportExport\Facades\Import::class,
-    'Export' => Ladybirdweb\ImportExport\Facades\Export::class,
-    'ImportHandler' => Ladybirdweb\ImportExport\Facades\ImportHandler::class,
-    'ImportExportLog' => Ladybirdweb\ImportExport\Facades\ImportExportLog::class,
+    'Import' => LWS\ImportExport\Facades\Import::class,
+    'Export' => LWS\ImportExport\Facades\Export::class,
+    'ImportHandler' => LWS\ImportExport\Facades\ImportHandler::class,
+    'ImportExportLog' => LWS\ImportExport\Facades\ImportExportLog::class,
 ]
 ```
 
