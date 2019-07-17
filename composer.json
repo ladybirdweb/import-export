@@ -1,5 +1,5 @@
 {
-    "name": "ladybirdweb/import-export",
+    "name": "lws/import-export",
     "description": ":This package will help to import and export huge data using cron jobs",
     "license": "MIT",
     "authors": [
